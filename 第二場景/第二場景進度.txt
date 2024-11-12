@@ -1,0 +1,6 @@
+第二場景
+1.建構視窗
+https://www.parallelrealities.co.uk/tutorials/shooter/shooter1.php
+2.輸入角色圖樣
+https://www.parallelrealities.co.uk/tutorials/shooter/shooter2.php
+3.視窗如何向前移動（視窗如果移動就等於小恐龍移動）

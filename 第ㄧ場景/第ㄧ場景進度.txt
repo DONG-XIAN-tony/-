@@ -1,0 +1,7 @@
+第一場景
+1.建構視窗
+https://www.parallelrealities.co.uk/tutorials/shooter/shooter1.php
+2.輸入角色圖樣
+https://www.parallelrealities.co.uk/tutorials/shooter/shooter2.php
+3.移動角色（上下左右）
+https://www.parallelrealities.co.uk/tutorials/shooter/shooter3.php
