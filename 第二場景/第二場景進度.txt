@@ -4,3 +4,6 @@ https://www.parallelrealities.co.uk/tutorials/shooter/shooter1.php
 2.輸入角色圖樣
 https://www.parallelrealities.co.uk/tutorials/shooter/shooter2.php
 3.視窗如何向前移動（視窗如果移動就等於小恐龍移動）
+4.小恐龍跳耀
+5.仙人掌刺人
+6.鳥飛行
