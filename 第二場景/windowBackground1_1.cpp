@@ -1,175 +1,116 @@
 #include <SDL2/SDL.h>
-#include <SDL2/SDL_image.h>  // 引入 SDL_image 頭檔
+#include <SDL2/SDL_image.h>
 #include <iostream>
-using namespace std;
 
-const int SCREEN_WIDTH = 980;
-const int SCREEN_HEIGHT = 320;
+int main(int argc, char* argv[]) {
+    // 初始化 SDL
+    if (SDL_Init(SDL_INIT_VIDEO) < 0) {
+        std::cerr << "SDL could not initialize! SDL_Error: " << SDL_GetError() << std::endl;
+        return 1;
+    }
 
-class App {
-public:
-    //初始化window初始化renderer 並調用SDL
-    App();
+    // 初始化 SDL_image
+    if (IMG_Init(IMG_INIT_PNG) == 0) {
+        std::cerr << "SDL_image could not initialize! IMG_Error: " << IMG_GetError() << std::endl;
+        SDL_Quit();
+        return 1;
+    }
 
-    //程式結束後釋放記憶體
-    ~App();
+    // 創建一個窗口
+    const int WINDOW_WIDTH = 840;
+    const int WINDOW_HEIGHT = 480;
+    SDL_Window* window = SDL_CreateWindow("Smooth Moving Background",
+                                          SDL_WINDOWPOS_CENTERED,
+                                          SDL_WINDOWPOS_CENTERED,
+                                          WINDOW_WIDTH, WINDOW_HEIGHT,
+                                          SDL_WINDOW_SHOWN);
+    if (!window) {
+        std::cerr << "Window could not be created! SDL_Error: " << SDL_GetError() << std::endl;
+        IMG_Quit();
+        SDL_Quit();
+        return 1;
+    }
 
-    // 如果用戶關閉窗口，就結束程式
-    void doInput();
+    // 渲染器設置
+    SDL_Renderer* renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
+    if (!renderer) {
+        std::cerr << "Renderer could not be created! SDL_Error: " << SDL_GetError() << std::endl;
+        SDL_DestroyWindow(window);
+        IMG_Quit();
+        SDL_Quit();
+        return 1;
+    }
 
-    // 設定渲染器的渲染顏色
-    void prepareScene();
+    // 加載圖片
+    SDL_Texture* texture = IMG_LoadTexture(renderer, "/Users/tonykk90918/Documents/程式/C++/程式設計/期末遊戲專案/期末專案程式碼/第二場景/圖片資料庫/背景圖片.png"); // 替換為你圖片的路徑
+    if (!texture) {
+        std::cerr << "Failed to load texture! IMG_Error: " << IMG_GetError() << std::endl;
+        SDL_DestroyRenderer(renderer);
+        SDL_DestroyWindow(window);
+        IMG_Quit();
+        SDL_Quit();
+        return 1;
+    }
 
-    //將渲染好的畫面顯示出來
-    void presentScene();
+    // 背景初始位置
+    float bgX1 = 0;
+    float bgX2 = WINDOW_WIDTH; // 第二張背景緊接著第一張
 
-    //檢查應用程式是否仍在運行（只讀）
-    bool isRunning() const;
+    // 設定移動速度（每秒移動的像素）
+    const float SPEED = 60.0f; // 每秒移動 60 像素
 
-private:
-    SDL_Window* window;
-    SDL_Renderer* renderer;
-    bool running = true; //表示程式是否在運行
+    // 計時變量
+    Uint32 lastTime = SDL_GetTicks(); // 上一次更新的時間
 
-    // 加入圖片的相關變數
-    SDL_Texture* backgroundTexture; // 背景圖片的SDL_Texture
+    // 主循環標誌
+    bool quit = false;
+    SDL_Event e;
 
-    //負責初始化 SDL 庫、創建應用程式窗口以及渲染器。
-    void initSDL();
-    
-    //來銷毀渲染器和視窗，並且在最後退出 SDL 系統
-    void cleanup();
-    
-    // 載入背景圖片
-    void loadBackground(const char* filePath);
-};
-
-//初始化window初始化renderer 並調用SDL
-App::App(): window(nullptr), renderer(nullptr), backgroundTexture(nullptr)   
-{
-    initSDL();      //調用SDL函式庫
-    loadBackground("/Users/tonykk90918/Documents/程式/C++/程式設計/期末遊戲專案/期末專案程式碼/第二場景/郭東憲/背景圖片.png"); // 載入背景圖片
-}
-
-//程式結束後釋放記憶體
-App::~App() 
-{
-    cleanup();     //程式結束後 釋放記憶體
-}
-
-//如果用戶關閉視窗，就結束程式
-void App::doInput() 
-{
-    SDL_Event event;
-    while (SDL_PollEvent(&event)) 
-    {
-        if (event.type == SDL_QUIT) //點擊窗口的關閉按鈕
-        {
-            running = false;
+    // 主事件循環
+    while (!quit) {
+        // 處理事件
+        while (SDL_PollEvent(&e) != 0) {
+            if (e.type == SDL_QUIT) { // 點擊關閉窗口
+                quit = true;
+            }
         }
-    }
-}  // End of doInput function
 
-//設定渲染器的渲染顏色
-void App::prepareScene()
-{
-    // 清除畫面之前先繪製背景圖片
-    if (backgroundTexture) {
-        SDL_RenderCopy(renderer, backgroundTexture, NULL, NULL); // 繪製背景
-    }
-}
+        // 計算時間差
+        Uint32 currentTime = SDL_GetTicks();
+        float deltaTime = (currentTime - lastTime) / 1000.0f; // 以秒為單位
+        lastTime = currentTime;
 
-//將渲染好的畫面顯示出來
-void App::presentScene() 
-{
-    SDL_RenderPresent(renderer); // 更新顯示
-}
+        // 更新背景位置
+        bgX1 -= SPEED * deltaTime; // 按時間更新位置
+        bgX2 -= SPEED * deltaTime;
 
-//檢查應用程式是否仍在運行（只讀）
-bool App::isRunning() const
-{
-    return running;
-}
+        // 如果背景移出螢幕，重置位置
+        if (bgX1 + WINDOW_WIDTH <= 0) {
+            bgX1 = bgX2 + WINDOW_WIDTH;
+        }
+        if (bgX2 + WINDOW_WIDTH <= 0) {
+            bgX2 = bgX1 + WINDOW_WIDTH;
+        }
 
-// initSDL() 方法的實現，負責初始化 SDL 庫、創建應用程式窗口以及渲染器。
-void App::initSDL() 
-{
-    int rendererFlags = SDL_RENDERER_ACCELERATED; // 使用硬體加速
-    int windowFlags = 0;
+        // 清空畫面
+        SDL_RenderClear(renderer);
 
-    if (SDL_Init(SDL_INIT_VIDEO) < 0)  // 初始化SDL視頻子系統
-    {
-        cout << "Couldn't initialize SDL: " << SDL_GetError() << endl;
-        exit(1);
+        // 渲染背景圖片（縮放到視窗大小）
+        SDL_Rect bgRect1 = {static_cast<int>(bgX1), 0, WINDOW_WIDTH, WINDOW_HEIGHT};
+        SDL_Rect bgRect2 = {static_cast<int>(bgX2), 0, WINDOW_WIDTH, WINDOW_HEIGHT};
+        SDL_RenderCopy(renderer, texture, NULL, &bgRect1);
+        SDL_RenderCopy(renderer, texture, NULL, &bgRect2);
+
+        // 顯示內容
+        SDL_RenderPresent(renderer);
     }
 
-    window = SDL_CreateWindow("小恐龍奔跑吧", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, windowFlags);
-    if (!window)    
-    {
-        cout << "Failed to open " << SCREEN_WIDTH << " x " << SCREEN_HEIGHT << " window: " << SDL_GetError() << endl;
-        exit(1);
-    }
-
-    SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "linear"); 
-
-    renderer = SDL_CreateRenderer(window, -1, rendererFlags); 
-    if (!renderer)   
-    {
-        cout<< "Failed to create renderer: " << SDL_GetError() << endl;
-        exit(1);
-    }
-}
-
-// 清除資源
-void App::cleanup() 
-{
-    if (backgroundTexture) {
-        SDL_DestroyTexture(backgroundTexture); // 清除背景圖片的資源
-    }
-    if (renderer)  
-    {
-        SDL_DestroyRenderer(renderer); // 銷毀渲染器
-    }
-    if (window)   
-    {
-        SDL_DestroyWindow(window); // 銷毀視窗
-    }
-    SDL_Quit(); // 退出SDL系統
-}
-
-// 載入背景圖片
-void App::loadBackground(const char* filePath) 
-{
-    SDL_Surface* loadedSurface = IMG_Load(filePath);  // 使用 IMG_Load 載入圖片
-
-    if (!loadedSurface) {
-        cout << "Unable to load image " << filePath << " SDL_Error: " << SDL_GetError() << endl;
-        exit(1);
-    }
-
-    backgroundTexture = SDL_CreateTextureFromSurface(renderer, loadedSurface);
-    SDL_FreeSurface(loadedSurface);  // 釋放 surface
-
-    if (!backgroundTexture) {
-        cout << "Unable to create texture from surface " << SDL_GetError() << endl;
-        exit(1);
-    }
-}
-
-int main(int argc, char* argv[]) 
-{
-    // Create an instance of App, which initializes SDL
-    App app;  
-
-    // Main loop of the application
-    while (app.isRunning()) 
-    {
-        app.prepareScene();  // 繪製背景
-        app.doInput();       // 處理來自用戶的輸入
-        app.presentScene();  // 顯示畫面
-
-        SDL_Delay(16);  // 延遲16ms，控制畫面更新速率
-    }
+    // 清理
+    SDL_DestroyTexture(texture);
+    SDL_DestroyRenderer(renderer);
+    SDL_DestroyWindow(window);
+    IMG_Quit();
+    SDL_Quit();
 
     return 0;
 }
