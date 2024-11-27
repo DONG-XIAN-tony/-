@@ -35,3 +35,38 @@ while (!is_quit)
     if (sleep_duration > nanoseconds(0))
         std::this_thread::sleep_for(sleep_duration);
 }
+
+//影片8
+try
+{
+    ResourcesManager::instance()->load();
+}
+catch (const LPCTSTR id)
+{
+    TCHAR err_msg[512];
+    _stprintf_s(err_msg, _T("\u65e0\u6cd5\u52a0\u8f7d: %s"), id);
+    MessageBox(hwnd, err_msg, _T("\u8d44\u6e90\u52a0\u8f7d\u5931\u8d25"), MB_OK | MB_ICONERROR);
+    return -1;
+}
+
+play_audio(_T("bgm"), true);
+
+const nanoseconds frame_duration(1000000000 / 144);
+steady_clock::time_point last_tick = steady_clock::now();
+
+static void draw_remain_hp()
+{
+    static IMAGE* img_ui_heart = ResourcesManager::instance()->find_image("ui_heart");
+    Rect rect_dst = { 0, 10, img_ui_heart->getwidth(), img_ui_heart->getheight() };
+    for (int i = 0; i < CharacterManager::instance()->get_player()->get_hp(); i++)
+    {
+        rect_dst.x = 10 + i * 40;
+        putimage_ex(img_ui_heart, &rect_dst);
+    }
+}
+
+draw_background();
+CharacterManager::instance()->on_render();
+CollisionManager::instance()->on_debug_render();
+draw_remain_hp();   
+//
