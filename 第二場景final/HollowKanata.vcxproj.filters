@@ -1,0 +1,119 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="來源檔案">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="標頭檔">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="資源檔">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="manager">
+      <UniqueIdentifier>{096b405d-28a8-429f-950c-b40fc22eca46}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="character">
+      <UniqueIdentifier>{fd545db5-3adb-406e-9c3f-e17e5af85124}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="item">
+      <UniqueIdentifier>{cd634eea-0647-4adf-9b08-8ce0fb9a8372}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="state_machine">
+      <UniqueIdentifier>{fcd15ee4-87e6-4b8c-8722-55060a63e9cd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="state_machine\state_node">
+      <UniqueIdentifier>{4b76a57c-ab65-48ef-a573-a088c3348367}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="animation.h" />
+    <ClInclude Include="atlas.h" />
+    <ClInclude Include="util.h" />
+    <ClInclude Include="timer.h" />
+    <ClInclude Include="vector2.h" />
+    <ClInclude Include="resources_manager.h">
+      <Filter>manager</Filter>
+    </ClInclude>
+    <ClInclude Include="collision_manager.h">
+      <Filter>manager</Filter>
+    </ClInclude>
+    <ClInclude Include="state_node.h">
+      <Filter>state_machine\state_node</Filter>
+    </ClInclude>
+    <ClInclude Include="state_machine.h">
+      <Filter>state_machine</Filter>
+    </ClInclude>
+    <ClInclude Include="collision_box.h" />
+    <ClInclude Include="collision_layer.h" />
+    <ClInclude Include="player.h">
+      <Filter>character</Filter>
+    </ClInclude>
+    <ClInclude Include="character.h">
+      <Filter>character</Filter>
+    </ClInclude>
+    <ClInclude Include="player_state_nodes.h">
+      <Filter>state_machine\state_node</Filter>
+    </ClInclude>
+    <ClInclude Include="character_manager.h">
+      <Filter>manager</Filter>
+    </ClInclude>
+    <ClInclude Include="bullet_time_manager.h">
+      <Filter>manager</Filter>
+    </ClInclude>
+    <ClInclude Include="sword.h">
+      <Filter>item</Filter>
+    </ClInclude>
+    <ClInclude Include="barb.h">
+      <Filter>item</Filter>
+    </ClInclude>
+    <ClInclude Include="enemy.h">
+      <Filter>character</Filter>
+    </ClInclude>
+    <ClInclude Include="enemy_state_nodes.h">
+      <Filter>state_machine\state_node</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="resources_manager.cpp">
+      <Filter>manager</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="collision_manager.cpp">
+      <Filter>manager</Filter>
+    </ClCompile>
+    <ClCompile Include="state_machine.cpp">
+      <Filter>state_machine</Filter>
+    </ClCompile>
+    <ClCompile Include="player.cpp">
+      <Filter>character</Filter>
+    </ClCompile>
+    <ClCompile Include="character.cpp">
+      <Filter>character</Filter>
+    </ClCompile>
+    <ClCompile Include="player_state_nodes.cpp">
+      <Filter>state_machine\state_node</Filter>
+    </ClCompile>
+    <ClCompile Include="character_manager.cpp">
+      <Filter>manager</Filter>
+    </ClCompile>
+    <ClCompile Include="bullet_time_manager.cpp">
+      <Filter>manager</Filter>
+    </ClCompile>
+    <ClCompile Include="sword.cpp">
+      <Filter>item</Filter>
+    </ClCompile>
+    <ClCompile Include="barb.cpp">
+      <Filter>item</Filter>
+    </ClCompile>
+    <ClCompile Include="enemy.cpp">
+      <Filter>character</Filter>
+    </ClCompile>
+    <ClCompile Include="enemy_state_nodes.cpp">
+      <Filter>state_machine\state_node</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>
