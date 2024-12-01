@@ -23,6 +23,19 @@ static void draw_background()
 	putimage_ex(img_background, &rect_dst);
 }
 
+static void draw_mihomo()
+{
+	static IMAGE* img_background = ResourcesManager::instance()->find_image("mihomo");
+	static Rect rect_dst =
+	{
+		(getwidth() - img_background->getwidth()) / 2,
+		(getheight() - img_background->getheight()) / 2,
+		img_background->getwidth(),
+		img_background->getheight()
+	};
+	putimage_ex(img_background, &rect_dst);
+}
+
 static void draw_remain_hp()
 {
 	static IMAGE* img_ui_heart = ResourcesManager::instance()->find_image("ui_heart");
@@ -64,7 +77,16 @@ int main(int argc, char** argv)
 	bool is_quit = false;
 
 	BeginBatchDraw();
+	//////////////////////////////////////////////////////////////////////////
+	// 繪製啟動畫面
+	draw_mihomo();
+	FlushBatchDraw(); // 更新顯示
 
+	// 啟動畫面持續時間
+	auto splash_start = steady_clock::now();
+
+	while (duration_cast<seconds>(steady_clock::now() - splash_start).count() < 4){}
+	//////////////////////////////////////////////////////////////////////////
 	while (!is_quit)
 	{
 		while (peekmessage(&msg))
