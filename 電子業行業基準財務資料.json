@@ -1,0 +1,54 @@
+{
+  "revenue": {
+    "value": 992700000000,
+    "unit": "TWD",
+    "description": "五家公司平均營收（含Micron以USD轉TWD估算）",
+    "source": "各公司年報/永續報告",
+    "confidence": "derived"
+  },
+  "gross_margin": {
+    "value": 26,
+    "unit": "%",
+    "description": "以TSMC 56.1%搭配面板/PCB/記憶體產業平均（15%~30%）推估",
+    "source": "TSMC年報 + 電子業平均",
+    "confidence": "derived"
+  },
+  "personnel_cost": {
+    "value": 110000000000,
+    "unit": "TWD",
+    "description": "以已揭露公司（TSMC、群創）加上其餘公司約營收10%推估",
+    "source": "TSMC、群創永續報告 + 電子業人事費率",
+    "confidence": "derived"
+  },
+  "depreciation": {
+    "value": 150000000000,
+    "unit": "TWD",
+    "description": "以半導體/PCB資本密集產業折舊約營收15%推估",
+    "source": "CAPEX結構推估",
+    "confidence": "derived"
+  },
+  "capacity": {
+    "value": "高資本密集產業（晶圓/面板/載板），平均產能利用率約75%~85%",
+    "description": "由TSMC實際利用率約76%與其他產業特性推估",
+    "source": "TSMC年報 + 產業特性",
+    "confidence": "derived"
+  },
+  "supplier_concentration": {
+    "value": "中高（前20%供應商占比約60%~80%）",
+    "description": "依TSMC（碳排前90%供應商）與Micron/PCB產業結構推估",
+    "source": "供應鏈揭露 + 電子業慣例",
+    "confidence": "derived"
+  },
+  "supply_chain_disruption": {
+    "value": [
+      "geopolitical risk",
+      "extreme weather",
+      "raw material shortage",
+      "energy supply instability",
+      "post-pandemic disruption"
+    ],
+    "description": "各公司一致揭露之供應鏈風險類型彙總",
+    "source": "各公司永續報告",
+    "confidence": "high"
+  }
+}
